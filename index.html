@@ -108,7 +108,7 @@
         .logo img {
             height: auto; 
             width: auto;
-            max-width: 150px; 
+            max-width: 90px; 
         }
 
         .nav-links {
@@ -593,5 +593,38 @@
             });
         });
     </script>
+	
+	<!-- START: Force Dialogflow Tooltip on Mobile -->
+<script>
+    // Wait until the entire page content is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find the Dialogflow Messenger element on the page
+        const dfMessenger = document.querySelector('df-messenger');
+        
+        // The widget loads its content inside a "shadowRoot", which is like a hidden, self-contained DOM.
+        // We need to access it to apply our custom style.
+        const shadowRoot = dfMessenger.shadowRoot;
+
+        // Create a new <style> element
+        const style = document.createElement('style');
+
+        // This is our magic CSS rule. 
+        // It targets screens smaller than 480px (most phones) 
+        // and overrides the default 'display: none' with 'display: flex !important'.
+        // The '!important' is crucial to ensure our rule wins.
+        style.innerHTML = `
+            @media screen and (max-width: 480px) {
+                #tooltip {
+                    display: flex !important;
+                }
+            }
+        `;
+        
+        // Append our new style rule inside the widget's shadowRoot
+        shadowRoot.appendChild(style);
+    });
+</script>
+<!-- END: Force Dialogflow Tooltip on Mobile -->
+	
 </body>
 </html>
