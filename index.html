@@ -106,9 +106,9 @@
         
 		
         .logo img {
-            height: auto; /* Slightly reduced height */
+            height: auto; 
             width: auto;
-            max-width: 150px; /* Added max-width to control wide logos */
+            max-width: 150px; 
         }
 
         .nav-links {
@@ -131,9 +131,8 @@
             color: var(--accent-color);
         }
         
-        /* FIX 3 START: Styles for Mobile Navigation */
         .hamburger-menu {
-            display: none; /* Hidden by default */
+            display: none; 
             cursor: pointer;
         }
 
@@ -148,11 +147,11 @@
         .mobile-nav {
             position: fixed;
             top: 0;
-            left: 100%; /* Start off-screen */
+            left: 100%; 
             width: 100%;
             height: 100vh;
             background-color: var(--primary-blue);
-            z-index: 1001; /* Higher than the header */
+            z-index: 1001; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -161,7 +160,7 @@
         }
 
         .mobile-nav.active {
-            left: 0; /* Slide in */
+            left: 0; 
         }
         
         .mobile-nav .nav-links {
@@ -185,8 +184,6 @@
             color: var(--white);
             cursor: pointer;
         }
-        /* FIX 3 END */
-
 
         /* --- Hero Section --- */
         #hero {
@@ -291,7 +288,8 @@
         }
         
         .plan-price {
-            font-size: 3rem;
+            /* ADJUSTMENT: Slightly reduced font size to better fit the new pricing */
+            font-size: 2.8rem;
             font-weight: 700;
             margin: 1rem 0;
         }
@@ -379,7 +377,6 @@
         @media (max-width: 768px) {
             h2 { font-size: 2rem; }
             
-            /* FIX 3: Hide desktop nav, show hamburger menu on mobile */
             .header .nav-links { display: none; } 
             .hamburger-menu { display: block; }
             
@@ -411,7 +408,6 @@
                     <li><a href="#why-us">Why Us</a></li>
                 </ul>
             </nav>
-            <!-- FIX 3: Hamburger menu HTML -->
             <div class="hamburger-menu" id="hamburger-menu">
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -420,7 +416,6 @@
         </div>
     </header>
 
-    <!-- FIX 3: Mobile navigation menu HTML -->
     <div class="mobile-nav" id="mobile-nav">
         <div class="close-menu" id="close-menu">&times;</div>
         <nav>
@@ -478,7 +473,8 @@
                 <div class="plans-grid">
                     <div class="plan-card">
                         <h3>Starter Connect</h3>
-                        <p class="plan-price">$29.99<span>/mo</span></p>
+                        <!-- CHANGE 1: Updated pricing to ₦12,000 -->
+                        <p class="plan-price">&#8358;12,000<span>/mo</span></p>
                         <ul class="plan-features">
                             <li>Up to 100 Mbps Download</li>
                             <li>Unlimited Data</li>
@@ -489,7 +485,8 @@
                     </div>
                     <div class="plan-card recommended">
                         <h3>Pro Fiber</h3>
-                        <p class="plan-price">$59.99<span>/mo</span></p>
+                        <!-- CHANGE 2: Updated pricing to ₦16,000 -->
+                        <p class="plan-price">&#8358;16,000<span>/mo</span></p>
                         <ul class="plan-features">
                             <li>Up to 1 Gbps Download</li>
                             <li>Unlimited Data & No Throttling</li>
@@ -500,7 +497,8 @@
                     </div>
                     <div class="plan-card">
                         <h3>Ultimate Gigabit</h3>
-                        <p class="plan-price">$89.99<span>/mo</span></p>
+                        <!-- CHANGE 3: Updated pricing to ₦22,000 -->
+                        <p class="plan-price">&#8358;22,000<span>/mo</span></p>
                         <ul class="plan-features">
                             <li>Up to 2 Gbps Symmetrical</li>
                             <li>Unlimited Data & No Throttling</li>
@@ -553,17 +551,17 @@
 
     <!-- DIALOGFLOW MESSENGER INTEGRATION -->
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-    <df-messenger
+        <df-messenger
       intent="WELCOME"
       chat-title="AirCom Pro Support"
       agent-id="b39e90d7-3a29-4151-b8ad-6fe967331ec5"
       language-code="en"
+      chat-icon="assets/support-icon.png"
     ></df-messenger>
     
     <style>
       /* --- DIALOGFLOW CUSTOMIZATION --- */
       df-messenger {
-       /* FIX 2: Added position: fixed to ensure it stays in the viewport and respects the z-index */
        position: fixed;
        z-index: 9999;
        --df-messenger-bot-message: #172a45;
@@ -575,24 +573,20 @@
       }
     </style>
 
-    <!-- FIX 3: JavaScript for Mobile Navigation -->
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const mobileNav = document.getElementById('mobile-nav');
         const closeMenu = document.getElementById('close-menu');
         const mobileNavLinks = mobileNav.querySelectorAll('.nav-links a');
 
-        // Open the menu when hamburger is clicked
         hamburgerMenu.addEventListener('click', () => {
             mobileNav.classList.add('active');
         });
 
-        // Close the menu when 'X' is clicked
         closeMenu.addEventListener('click', () => {
             mobileNav.classList.remove('active');
         });
         
-        // Close the menu when any of the links are clicked
         mobileNavLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mobileNav.classList.remove('active');
