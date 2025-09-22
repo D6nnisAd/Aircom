@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirCom Pro - Next Generation Connectivity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-blue: #0a192f;
+            --secondary-blue: #172a45;
+            --accent-color: #64ffda;
+            --text-light: #ccd6f6;
+            --text-dark: #8892b0;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--white);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--accent-color);
+            color: var(--primary-blue);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--accent-color);
+        }
+
+        /* --- Header / Navigation --- */
+        .header {
+            background: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+		
+        .logo img {
+            height: auto; /* Slightly reduced height */
+            width: auto;
+            max-width: 150px; /* Added max-width to control wide logos */
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* FIX 3 START: Styles for Mobile Navigation */
+        .hamburger-menu {
+            display: none; /* Hidden by default */
+            cursor: pointer;
+        }
+
+        .hamburger-menu .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--white);
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 100%; /* Start off-screen */
+            width: 100%;
+            height: 100vh;
+            background-color: var(--primary-blue);
+            z-index: 1001; /* Higher than the header */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: left 0.3s ease-in-out;
+        }
+
+        .mobile-nav.active {
+            left: 0; /* Slide in */
+        }
+        
+        .mobile-nav .nav-links {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .mobile-nav .nav-links li {
+            margin: 1.5rem 0;
+        }
+        
+        .mobile-nav .nav-links a {
+            font-size: 1.5rem;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            color: var(--white);
+            cursor: pointer;
+        }
+        /* FIX 3 END */
+
+
+        /* --- Hero Section --- */
+        #hero {
+            background: url('assets/hero-bg.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.7);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--text-light);
+        }
+
+        /* --- Features Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--secondary-blue);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .feature-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        /* --- Plans Section --- */
+        #plans {
+            background-color: var(--secondary-blue);
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .plan-card {
+            background: var(--primary-blue);
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .plan-card.recommended {
+            border-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .plan-card h3 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .plan-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-dark);
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .plan-features li {
+            margin-bottom: 0.8rem;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .plan-features li::before {
+            content: '✓';
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+
+        /* --- Why Choose Us Section --- */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+        
+        .why-choose-us-image {
+            width: 100%;
+            height: 350px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .why-choose-us-content ul {
+            list-style: none;
+        }
+
+        .why-choose-us-content li {
+            margin-bottom: 1.5rem;
+        }
+
+        .why-choose-us-content h4 {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background: var(--secondary-blue);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .footer p {
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-dark);
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 768px) {
+            h2 { font-size: 2rem; }
+            
+            /* FIX 3: Hide desktop nav, show hamburger menu on mobile */
+            .header .nav-links { display: none; } 
+            .hamburger-menu { display: block; }
+            
+            #hero { height: 70vh; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1rem; }
+
+            .plans-grid { grid-template-columns: 1fr; }
+            .plan-card.recommended { transform: scale(1); }
+
+            .why-choose-us-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="assets/logo.png" alt="AirCom Pro Logo">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#plans">Plans</a></li>
+                    <li><a href="#why-us">Why Us</a></li>
+                </ul>
+            </nav>
+            <!-- FIX 3: Hamburger menu HTML -->
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FIX 3: Mobile navigation menu HTML -->
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="close-menu" id="close-menu">&times;</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#plans">Plans</a></li>
+                <li><a href="#why-us">Why Us</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Sections remain the same... -->
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content container">
+                <h1>Connect Your World with AirCom Pro</h1>
+                <p>Experience blazing-fast internet, seamless mobile connectivity, and unparalleled customer support. The future of communication is here.</p>
+                <a href="#plans" class="btn">Explore Our Plans</a>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="container">
+            <h2>Our Core Benefits</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <img src="assets/icon-speed.png" alt="Speed Icon" class="feature-icon">
+                    <h3>Blazing-Fast Speeds</h3>
+                    <p>Stream 4K video, game online, and connect all your devices without a single buffer. Our fiber-optic network is built for performance.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="assets/icon-data.png" alt="Data Icon" class="feature-icon">
+                    <h3>Unlimited Data</h3>
+                    <p>Say goodbye to data caps and overage fees. Browse, stream, and download as much as you want, whenever you want.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="assets/icon-support.png" alt="Support Icon" class="feature-icon">
+                    <h3>24/7 Expert Support</h3>
+                    <p>Our dedicated support team and intelligent AI assistant are available around the clock to help you with any questions or issues.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="assets/icon-network.png" alt="Network Icon" class="feature-icon">
+                    <h3>99.9% Network Uptime</h3>
+                    <p>Rely on a network that's always on. We guarantee consistent, stable connectivity so you can stay connected to what matters most.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plans Section -->
+        <section id="plans">
+            <div class="container">
+                <h2>Plans That Fit Your Life</h2>
+                <div class="plans-grid">
+                    <div class="plan-card">
+                        <h3>Starter Connect</h3>
+                        <p class="plan-price">$29.99<span>/mo</span></p>
+                        <ul class="plan-features">
+                            <li>Up to 100 Mbps Download</li>
+                            <li>Unlimited Data</li>
+                            <li>Standard Wi-Fi Router Included</li>
+                            <li>24/7 Chat Support</li>
+                        </ul>
+                        <a href="#" class="btn">Get Started</a>
+                    </div>
+                    <div class="plan-card recommended">
+                        <h3>Pro Fiber</h3>
+                        <p class="plan-price">$59.99<span>/mo</span></p>
+                        <ul class="plan-features">
+                            <li>Up to 1 Gbps Download</li>
+                            <li>Unlimited Data & No Throttling</li>
+                            <li>Advanced Wi-Fi 6 Router</li>
+                            <li>Priority Phone & Chat Support</li>
+                        </ul>
+                        <a href="#" class="btn">Get Started</a>
+                    </div>
+                    <div class="plan-card">
+                        <h3>Ultimate Gigabit</h3>
+                        <p class="plan-price">$89.99<span>/mo</span></p>
+                        <ul class="plan-features">
+                            <li>Up to 2 Gbps Symmetrical</li>
+                            <li>Unlimited Data & No Throttling</li>
+                            <li>Whole-Home Mesh Wi-Fi System</li>
+                            <li>Dedicated Expert Support</li>
+                        </ul>
+                        <a href="#" class="btn">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section -->
+        <section id="why-us" class="container">
+            <h2>Why AirCom Pro?</h2>
+            <div class="why-choose-us-grid">
+                <div class="why-choose-us-content">
+                   <ul>
+                       <li>
+                           <h4>Cutting-Edge Technology</h4>
+                           <p>We invest in the latest fiber-optic and 5G technology to ensure you always have the fastest and most reliable connection available.</p>
+                       </li>
+                       <li>
+                           <h4>Transparent Pricing</h4>
+                           <p>No hidden fees, no surprise price hikes. The price you see is the price you pay. Simple, honest billing you can count on.</p>
+                       </li>
+                       <li>
+                           <h4>Customer-First Approach</h4>
+                           <p>Your satisfaction is our top priority. From easy installation to proactive network monitoring, we're dedicated to providing a superior service experience.</p>
+                       </li>
+                   </ul>
+                </div>
+                <img src="assets/network-illustration.png" alt="Network Illustration" class="why-choose-us-image">
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="social-links">
+                <!-- Replace # with your actual social media links -->
+                <a href="#">Facebook</a> | 
+                <a href="#">Twitter</a> | 
+                <a href="#">Instagram</a>
+            </div>
+            <p>&copy; 2024 AirCom Pro. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- DIALOGFLOW MESSENGER INTEGRATION -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      intent="WELCOME"
+      chat-title="AirCom Pro Support"
+      agent-id="b39e90d7-3a29-4151-b8ad-6fe967331ec5"
+      language-code="en"
+    ></df-messenger>
+    
+    <style>
+      /* --- DIALOGFLOW CUSTOMIZATION --- */
+      df-messenger {
+       /* FIX 2: Added position: fixed to ensure it stays in the viewport and respects the z-index */
+       position: fixed;
+       z-index: 9999;
+       --df-messenger-bot-message: #172a45;
+       --df-messenger-button-titlebar-color: var(--accent-color);
+       --df-messenger-chat-background-color: var(--primary-blue);
+       --df-messenger-font-color: var(--white);
+       --df-messenger-send-icon: var(--accent-color);
+       --df-messenger-user-message: var(--secondary-blue);
+      }
+    </style>
+
+    <!-- FIX 3: JavaScript for Mobile Navigation -->
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileNav = document.getElementById('mobile-nav');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileNavLinks = mobileNav.querySelectorAll('.nav-links a');
+
+        // Open the menu when hamburger is clicked
+        hamburgerMenu.addEventListener('click', () => {
+            mobileNav.classList.add('active');
+        });
+
+        // Close the menu when 'X' is clicked
+        closeMenu.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+        });
+        
+        // Close the menu when any of the links are clicked
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
