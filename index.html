@@ -389,6 +389,69 @@
 
             .why-choose-us-grid { grid-template-columns: 1fr; }
         }
+		
+		        /* --- CUSTOM DIALOGFLOW WRAPPER AND POPUP STYLES --- */
+        .df-messenger-wrapper {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 9998; /* Just below the messenger itself */
+        }
+
+        .custom-chat-popup {
+            position: absolute;
+            bottom: 75px; /* Position it above the chat icon */
+            right: 0;
+            background-color: var(--secondary-blue);
+            color: var(--text-light);
+            padding: 15px 40px 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 250px;
+            opacity: 0; /* Initially hidden */
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease-in-out;
+            z-index: 9999;
+        }
+
+        /* The little arrow pointing down */
+        .custom-chat-popup::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 20px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: var(--secondary-blue) transparent transparent transparent;
+        }
+
+        .custom-chat-popup.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 24px;
+            color: var(--text-dark);
+            cursor: pointer;
+            line-height: 1;
+        }
+        .close-popup:hover {
+            color: var(--white);
+        }
+
+        /* Adjust popup position on mobile so it doesn't go off-screen */
+        @media (max-width: 480px) {
+            .custom-chat-popup {
+                width: calc(100vw - 40px);
+                right: -5px;
+            }
+        }
 
     </style>
 </head>
@@ -549,15 +612,28 @@
         </div>
     </footer>
 
-    <!-- DIALOGFLOW MESSENGER INTEGRATION -->
+        <!-- DIALOGFLOW MESSENGER INTEGRATION (WITH CUSTOM WRAPPER) -->
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+    <!-- This is our new wrapper. It will hold the chat widget, the notification dot, and the popup -->
+    <div class="df-messenger-wrapper">
+
+        <!-- This is our custom popup message -->
+        <div class="custom-chat-popup" id="custom-chat-popup">
+            <p>Hello! Need help? Chat with our support team now.</p>
+            <div class="close-popup" id="close-popup">&times;</div>
+        </div>
+
+        <!-- The original Dialogflow widget goes inside our wrapper -->
         <df-messenger
-      intent="WELCOME"
-      chat-title="AirCom Pro Support"
-      agent-id="b39e90d7-3a29-4151-b8ad-6fe967331ec5"
-      language-code="en"
-      chat-icon="assets/support-icon.png"
-    ></df-messenger>
+          intent="WELCOME"
+          chat-title="AirCom Pro Support"
+          agent-id="b39e90d7-3a29-4151-b8ad-6fe967331ec5"
+          language-code="en"
+          chat-icon="assets/support-icon.png"
+        ></df-messenger>
+
+    </div>
     
     <style>
       /* --- DIALOGFLOW CUSTOMIZATION --- */
@@ -594,37 +670,30 @@
         });
     </script>
 	
-	<!-- START: Force Dialogflow Tooltip on Mobile -->
-<script>
-    // Wait until the entire page content is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        // Find the Dialogflow Messenger element on the page
-        const dfMessenger = document.querySelector('df-messenger');
-        
-        // The widget loads its content inside a "shadowRoot", which is like a hidden, self-contained DOM.
-        // We need to access it to apply our custom style.
-        const shadowRoot = dfMessenger.shadowRoot;
-
-        // Create a new <style> element
-        const style = document.createElement('style');
-
-        // This is our magic CSS rule. 
-        // It targets screens smaller than 480px (most phones) 
-        // and overrides the default 'display: none' with 'display: flex !important'.
-        // The '!important' is crucial to ensure our rule wins.
-        style.innerHTML = `
-            @media screen and (max-width: 480px) {
-                #tooltip {
-                    display: flex !important;
-                }
+	    <!-- START: Custom Popup Controller Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('custom-chat-popup');
+            const closeButton = document.getElementById('close-popup');
+            
+            // Check if the user has already closed the popup in this session
+            if (!sessionStorage.getItem('popupClosed')) {
+                // If not, show the popup after a 3-second delay
+                setTimeout(() => {
+                    popup.classList.add('visible');
+                }, 3000); 
             }
-        `;
-        
-        // Append our new style rule inside the widget's shadowRoot
-        shadowRoot.appendChild(style);
-    });
-</script>
-<!-- END: Force Dialogflow Tooltip on Mobile -->
+
+            // When the close button is clicked...
+            closeButton.addEventListener('click', function() {
+                // Hide the popup
+                popup.classList.remove('visible');
+                // And remember that it was closed for this session
+                sessionStorage.setItem('popupClosed', 'true');
+            });
+        });
+    </script>
+    <!-- END: Custom Popup Controller Script -->
 	
 </body>
 </html>
